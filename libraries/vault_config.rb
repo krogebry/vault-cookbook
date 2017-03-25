@@ -48,6 +48,7 @@ module VaultCookbook
       attribute(:habackend_type, kind_of: String)
       attribute(:habackend_options, option_collector: true)
       attribute(:telemetry_options, option_collector: true, default: {})
+      attribute(:storage_options, option_collector: true, default: {})
 
       def tls?
         if tls_disable == true || tls_disable == 'yes' || tls_disable == 1
@@ -79,6 +80,8 @@ module VaultCookbook
           config['ha_backend'] = { habackend_type => (habackend_options || {}) }
         end
         config['telemetry'] = telemetry_options unless telemetry_options.empty?
+
+        config['storage'] = storage_options unless storage_options.empty?
 
         JSON.pretty_generate(config, quirks_mode: true)
       end
